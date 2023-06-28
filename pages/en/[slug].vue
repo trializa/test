@@ -10,19 +10,21 @@ import { ref } from 'vue'
 const {
   params: { slug },
 } = useRoute()
-/* const { data: content } = await useAsyncData('content',
-  () => queryContent('en')
-    .where({  _path: { $contains: slug } })
 
-    .find()
-) */
+console.log('slug',slug)
+const { data: content } = await useAsyncData('content',
+  () => queryContent('art','en')
+    .where({  _path: { $contains: slug.replace(/\/art/g, '') } })
+
+    .findOne()
+) 
 
 
-const { $lsm_content } = useNuxtApp()
+/* const { $lsm_content } = useNuxtApp()
 
 
 const aa = await $lsm_content('/en',slug)
-
+ */
 
 </script>
 
@@ -30,18 +32,18 @@ const aa = await $lsm_content('/en',slug)
 
 <div class="text-center py-10">
   <pre>slug {{slug}}</pre>
-<!--   <pre>{{slug}}</pre> 
-  <pre>{{aa}}</pre>  -->
+ <pre>slug string: {{slug}}</pre>
+  <!-- <pre>{{content}}</pre> -->
   <div class="hy-20 my-20"></div>
-  <img :src="aa.img"  class="px-20 text-center hehe overflow-hidden lg:max-w-500 lg:min-w-300 hy-20"/>
+  <img :src="content.img"  class="px-20 text-center hehe overflow-hidden lg:max-w-500 lg:min-w-300 hy-20"/>
   
-    <ContentRenderer :value="aa">
+    <ContentRenderer :value="content">
   <template #empty>
     <p>No content found.</p>
   </template>
 </ContentRenderer>
 </div>
-<pre>slug string: {{slug}}</pre>
+
 
 
 </template>

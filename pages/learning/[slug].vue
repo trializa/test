@@ -2,44 +2,41 @@
 <script setup>
 import { ref } from 'vue'
 
-/* 
-definePageMeta({
-    middleware: ["trailing"]
-    // or middleware: 'auth'
-  }) */
+
 
 const {
-  params: { slug },
+  params: { slug }
 } = useRoute()
 
 console.log(slug,'this is slug')
-/* const { data: content } = await useAsyncData('content',
-  () => queryContent('learning')
-    .where({  _path: { $contains: slug } })
+const { data: content } = await useAsyncData('content',
+  () => queryContent('art','learning')
+    .where({  _path: { $contains: slug.replace(/\/art/g, '') } })
 
-    .find()
-) */
+    .findOne()
+) 
 
 
-const { $lsm_content } = useNuxtApp()
+/* const { $lsm_content } = useNuxtApp()
 
 
 const aa = await $lsm_content('learning',slug)
 
-
+ */
 </script>
 
 <template>
 
 <div class="text-center py-10">
 
+<pre>slug string: {{slug}}</pre>
 <!--   <pre>{{slug}}</pre> 
   <pre>{{aa}}</pre>  -->
   
   <div class="hy-20 my-20"></div>
-  <img :src="aa.img"  class="px-20 text-center hehe overflow-hidden lg:max-w-500 lg:min-w-300 hy-20"/>
+  <img :src="content.img"  class="px-20 text-center hehe overflow-hidden lg:max-w-500 lg:min-w-300 hy-20"/>
   
-    <ContentRenderer :value="aa">
+    <ContentRenderer :value="content">
       
   <template #empty>
     <p>No content found.</p>
@@ -53,7 +50,7 @@ const aa = await $lsm_content('learning',slug)
     </ContentDoc> -->
 
 </div>
-<pre>slug string: {{slug}}</pre>
+
 
 
 </template>
